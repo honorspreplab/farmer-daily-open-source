@@ -1,0 +1,42 @@
+# INACTIVE EXAMPLE. This file is deliberately outside .github/workflows.
+# Do not activate, commit as a workflow, or add secrets without owner approval.
+# Provider setup, recipient consent/verification, a spend cap, and the server's
+# dispatch configuration must be complete first. This does not deploy Azure.
+# GitHub schedules are best-effort: runs may be late or dropped, not exact delivery.
+# Hourly runs are up to 744 jobs in a 31-day month. Their duration consumes the
+# private repository owner's shared Actions allowance; 744 jobs is not a promise
+# of 744 billed minutes. Review billing and a stop-usage budget before activation.
+name: Farmer Daily messaging schedule
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '17 * * * *'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: farmer-daily-messaging-schedule
+  cancel-in-progress: false
+
+jobs:
+  dispatch:
+    if: ${{ vars.FARMER_MESSAGING_SCHEDULE_ENABLED == 'true' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    steps:
+      - name: Read reviewed source
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - name: Use Node 22
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: '22'
+      - name: Dispatch opted-in daily briefs
+        env:
+          FARMER_MESSAGING_SCHEDULE_ENABLED: ${{ vars.FARMER_MESSAGING_SCHEDULE_ENABLED }}
+          APP_ORIGIN: ${{ vars.APP_ORIGIN }}
+          MESSAGING_DISPATCH_KEY: ${{ secrets.MESSAGING_DISPATCH_KEY }}
+        run: node scripts/run-messaging-schedule.mjs

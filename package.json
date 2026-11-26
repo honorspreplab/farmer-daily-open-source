@@ -1,0 +1,25 @@
+{
+  "name": "farmer-daily-azure",
+  "version": "0.18.2",
+  "private": true,
+  "license": "MIT",
+  "description": "Farmer Daily Washington cloud application",
+  "scripts": {
+    "start": "node server.js",
+    "build": "node scripts/build.mjs",
+    "check": "node --check calendar-connections.js && node --check calendar-callback.js && node --check api/calendar-connections/index.js && node --check api/shared/calendar-connections.js && node --check api/shared/calendar-providers.js && node --check connected-farm.js && node --check app.js && node --check farm-workspace.js && node --check farm-intelligence.js && node --check field-flow.js && node --check field-map.js && node --check phase-one.js && node --check phase-schedule.js && node --check dev-status.js && node --check work-plan.js && node --check membership.js && node --check admin.js && node --check weather-ui.js && node --check service-worker.js && node --check scripts/build.mjs && node --check scripts/verify-deployment.mjs && node --check server.js && node scripts/validate-api-package.cjs",
+    "test": "node --test tests/*.test.cjs",
+    "test:messaging-browser": "node tests/messaging-browser.cjs",
+    "test:ai-browser": "node tests/ai-brief-browser.cjs",
+    "test:focused-browser": "node tests/focused-views-browser.cjs",
+    "check:ux": "node --check brief-voice.js && node --check focused-views.js",
+    "check:ai": "node --check ai-brief.js && node --check api/ai-brief/index.js && node --check api/shared/ai-provider.js && node --check api/shared/ai-tools.js && node --check api/shared/ai-budget.js && node --check api/shared/ai-evidence.js",
+    "check:messaging": "node --check messaging.js && node --check api/shared/messaging.js && node --check api/shared/message-provider.js && node --check api/messaging/index.js && node --check api/messaging-webhook/index.js && node --check api/messaging-dispatch/index.js && node --check scripts/run-messaging-schedule.mjs"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "devDependencies": {
+    "leaflet": "1.9.4"
+  }
+}

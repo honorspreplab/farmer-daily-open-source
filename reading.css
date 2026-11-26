@@ -1,0 +1,115 @@
+/* Optional reading presentation. No downloaded font, altered words or theme override. */
+.reading-helper-panel{background:var(--paper);color:var(--ink);border:1px solid var(--line);border-radius:16px;padding:24px;margin:0 0 28px;max-width:850px}
+.reading-helper-panel h2{font:600 25px Newsreader,serif;margin:0 0 12px}
+.reading-helper-panel p{font-size:14px;line-height:1.7;max-width:65ch}
+.reading-helper-toggle{display:flex;align-items:center;gap:12px;font-size:16px;font-weight:700;padding:12px 0;cursor:pointer}
+.reading-helper-toggle input{width:22px;height:22px;flex:0 0 22px;accent-color:var(--accent)}
+.reading-helper-size{display:grid;gap:8px;max-width:340px;font-size:14px;font-weight:600;margin:16px 0}
+.reading-helper-size select{width:100%;min-height:44px;border:1px solid var(--control-border);border-radius:8px;padding:10px;font:inherit}
+.reading-helper-preview{padding:16px 20px;border:1px solid var(--line);border-radius:12px;background:var(--soft);margin:18px 0}
+.reading-helper-preview h3{font-size:17px;margin:0 0 8px}.reading-helper-preview p{margin:0}
+.reading-helper-note,.reading-helper-status{color:var(--muted)}
+.reading-helper-panel .workspace-actions{align-items:flex-start}
+.reading-helper-panel button{min-height:44px}
+.reading-map-shortcut{display:none}
+body[data-reading-helper=true] .reading-map-shortcut{display:inline-block;margin:0 0 12px}
+
+body[data-reading-helper=true]{--reading-text:18px;--reading-control:16px;font-size:var(--reading-text)}
+body[data-reading-helper=true][data-reading-size=large]{--reading-text:20px;--reading-control:18px}
+/* Important declarations deliberately override legacy fixed typography in the
+   component sheets. Browser/user styles may still override at user origin. */
+body[data-reading-helper=true],body[data-reading-helper=true] *{
+  font-family:Arial,Verdana,sans-serif!important;
+  line-height:1.7!important;letter-spacing:.04em!important;word-spacing:.12em!important;
+  font-style:normal!important;text-transform:none!important;
+}
+body[data-reading-helper=true] :where(p,li,dt,dd,label,legend,summary,input,select,textarea,small,b,strong,em,span,button,a,.bot-msg,.user-msg,.workspace-empty,.profile-line,.data-status-row,.field-hour-row,.signal-head){font-size:var(--reading-text)!important}
+body[data-reading-helper=true] :where(h1,h2,h3,h4){line-height:1.5!important;overflow-wrap:anywhere}
+body[data-reading-helper=true] h1{font-size:calc(var(--reading-text) * 1.7)!important}
+body[data-reading-helper=true] h2{font-size:calc(var(--reading-text) * 1.45)!important}
+body[data-reading-helper=true] :where(h3,h4){font-size:calc(var(--reading-text) * 1.2)!important}
+body[data-reading-helper=true] :is(h1,h2,h3,h4) *{font-size:inherit!important;line-height:inherit!important}
+body[data-reading-helper=true] :where(p,li,dt,dd,label,legend,summary,.bot-msg,.user-msg,.workspace-empty,.profile-line,.data-status-row,.field-hour-row){text-align:left;overflow-wrap:anywhere}
+body[data-reading-helper=true] p{max-width:65ch}
+body[data-reading-helper=true] p+p{margin-top:1.5em}
+body[data-reading-helper=true] :where(button,input,select,textarea){font-size:var(--reading-control)!important;min-height:44px;max-width:100%}
+body[data-reading-helper=true] :where(button,a){white-space:normal;overflow-wrap:anywhere}
+body[data-reading-helper=true] :where(button,a,input,select,textarea) :where(span,b,small){font-size:inherit!important}
+body[data-reading-helper=true] input[type=checkbox],body[data-reading-helper=true] input[type=radio]{min-height:22px;width:22px;height:22px;flex-shrink:0}
+body[data-reading-helper=true] :where(.eyebrow,.advisory-field,.field-flow-status,.field-flow-error,.field-map-status){font-size:var(--reading-control)!important}
+body[data-reading-helper=true] .reading-helper-preview p{font-size:var(--reading-text)!important}
+
+/* Give expanded words room instead of clipping or shrinking them. */
+body[data-reading-helper=true] .sidebar{overflow-y:auto}
+body[data-reading-helper=true] .sidebar-bottom{margin-top:24px}
+body[data-reading-helper=true] .brand{font-size:20px!important;white-space:normal;padding-bottom:20px}
+body[data-reading-helper=true] :is(.nav-item,.farm-chip) :is(span,b,strong,small),
+body[data-reading-helper=true] .nav-item{font-size:var(--reading-control)!important}
+body[data-reading-helper=true] .nav-item{gap:8px;padding:10px}
+body[data-reading-helper=true] .nav-item b{font-size:14px!important}
+body[data-reading-helper=true] .topbar{height:auto;min-height:76px;padding-top:10px;padding-bottom:10px;gap:10px;flex-wrap:wrap}
+body[data-reading-helper=true] .topbar :is(span,b,strong,small,a){font-size:14px!important;line-height:1.5!important}
+body[data-reading-helper=true] .weather-mini{min-width:0;flex:1}
+body[data-reading-helper=true] .weather-mini small{white-space:normal;max-width:none;overflow:visible;text-overflow:clip}
+body[data-reading-helper=true] .weather-mini-credit{flex-wrap:wrap}
+body[data-reading-helper=true] .icon-btn,body[data-reading-helper=true] .avatar{width:44px;height:44px;flex-shrink:0}
+body[data-reading-helper=true] .top-actions{gap:6px}
+body[data-reading-helper=true] .panel-head,body[data-reading-helper=true] .welcome-row{gap:16px;flex-wrap:wrap}
+body[data-reading-helper=true] .listen-btn{flex-wrap:wrap}
+body[data-reading-helper=true] .task-row{grid-template-columns:28px minmax(0,1fr);gap:8px 14px}
+body[data-reading-helper=true] .task-check{grid-column:1;grid-row:1 / span 2;align-self:start}
+body[data-reading-helper=true] .task-time,body[data-reading-helper=true] .task-info,body[data-reading-helper=true] .task-row .status{grid-column:2;max-width:none}
+body[data-reading-helper=true] .task-row .status{justify-self:start}
+body[data-reading-helper=true] .theme-title{gap:14px;flex-wrap:wrap}
+body[data-reading-helper=true] .theme-option :is(span,small){font-size:var(--reading-control)!important}
+body[data-reading-helper=true] .theme-option{min-width:0}
+body[data-reading-helper=true] .profile-line{gap:16px;overflow-wrap:anywhere}
+body[data-reading-helper=true] .field-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}
+body[data-reading-helper=true] .field-hour-row{grid-template-columns:repeat(2,minmax(0,1fr))}
+body[data-reading-helper=true] .field-review-summary{grid-template-columns:1fr;gap:5px}
+body[data-reading-helper=true] .field-review-summary dd{margin-bottom:12px}
+body[data-reading-helper=true] .field-flow-steps li{font-size:var(--reading-control)!important;line-height:1.5!important;letter-spacing:normal!important;word-spacing:normal!important;overflow-wrap:normal;min-width:0;padding:7px}
+body[data-reading-helper=true] .field-flow-header h2{margin-bottom:10px}
+body[data-reading-helper=true] .field-flow-footer{padding:12px 14px}
+body[data-reading-helper=true] .field-flow-error{max-height:96px;overflow:auto}
+body[data-reading-helper=true] .field-map-frame{display:grid}
+body[data-reading-helper=true] .field-map-frame>.field-map{grid-area:1 / 1}
+body[data-reading-helper=true] .field-map-consent{position:relative;inset:auto;grid-area:1 / 1;min-width:0;padding:20px}
+body[data-reading-helper=true] .field-map-consent h4{font-size:24px!important}
+body[data-reading-helper=true] .field-map .leaflet-control-attribution,
+body[data-reading-helper=true] .field-map .leaflet-control-attribution *,
+body[data-reading-helper=true] .field-map-coordinate-label{font-size:14px!important;line-height:1.5!important;letter-spacing:normal!important;word-spacing:normal!important}
+body[data-reading-helper=true] .field-map .leaflet-bar a{font-size:22px!important;line-height:32px!important;min-height:32px;white-space:nowrap}
+body[data-reading-helper=true] .chat-drawer{width:min(480px,calc(100% - 24px));height:min(650px,82dvh);grid-template-rows:auto minmax(0,1fr) auto}
+body[data-reading-helper=true] .chat-drawer .messages{min-height:0}
+body[data-reading-helper=true] .chat-drawer form{grid-template-columns:auto minmax(0,1fr) auto auto}
+body[data-reading-helper=true] .chat-drawer .send{width:44px;height:44px}
+body[data-reading-helper=true] .chat-head{gap:12px}
+body[data-reading-helper=true] .bot-msg,body[data-reading-helper=true] .user-msg{max-width:100%}
+body[data-reading-helper=true] .ask-fab :is(b,small){font-size:14px!important;line-height:1.5!important}
+body[data-reading-helper=true] .install-banner{max-height:45dvh;overflow:auto}
+body[data-reading-helper=true]:has(.chat-drawer.open) .install-banner{display:none}
+body[data-reading-helper=true] .install-banner :is(b,small){font-size:14px!important;line-height:1.5!important}
+body[data-reading-helper=true] .choice-grid label>span{height:auto;min-height:105px}
+body[data-reading-helper=true] .preference-list label{gap:14px;flex-wrap:wrap}
+body[data-reading-helper=true] .maturity-badge{white-space:normal;max-width:45%;font-size:var(--reading-control)!important}
+
+@media(max-width:900px){body[data-reading-helper=true] .settings-layout{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:600px){
+  .reading-helper-panel{padding:20px 16px}
+  body[data-reading-helper=true] .page{padding-left:16px;padding-right:16px}
+  body[data-reading-helper=true] .topbar{padding-left:12px;padding-right:12px}
+  body[data-reading-helper=true] .top-actions{margin-left:0}
+  body[data-reading-helper=true] .field-flow-actions{display:grid;grid-template-columns:1fr 1fr}
+  body[data-reading-helper=true] #fieldFlowNext{grid-column:1 / -1;grid-row:1;margin:0;max-width:100%}
+  body[data-reading-helper=true] .field-flow-header{padding:12px}
+  body[data-reading-helper=true] .field-flow-header h2{font-size:24px!important}
+  body[data-reading-helper=true] .field-flow-body{padding:16px 12px}
+  body[data-reading-helper=true] .field-map-jump{flex-wrap:wrap}
+  body[data-reading-helper=true] .field-map-jump select{flex-basis:100%}
+  body[data-reading-helper=true] .field-coordinate-row,body[data-reading-helper=true] .profile-line{grid-template-columns:1fr;display:grid;gap:8px}
+  body[data-reading-helper=true] .chat-drawer{right:12px;left:12px;bottom:88px}
+  body[data-reading-helper=true] .form-grid{grid-template-columns:1fr}
+  body[data-reading-helper=true] .data-status-row{overflow-wrap:anywhere}
+  body[data-reading-helper=true] .intelligence-row{flex-wrap:wrap}
+}

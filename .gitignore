@@ -1,0 +1,64 @@
+node_modules/
+api/node_modules/
+dist/
+azure-cli-install.log
+azure-cli-pip.*.log
+*.local.json
+.env
+.env.*
+!.env.example
+.azure-cli-venv/
+.azure/
+infra/main.json
+
+# Local identities, credentials, and machine-specific tooling
+.aws/
+.codex/
+.agents/
+.tools/
+.venv/
+venv/
+local.settings.json
+*.pem
+*.key
+*.pfx
+*.p12
+credentials.json
+token.json
+tokens.json
+client_secret*.json
+service-account*.json
+
+# Runtime logs, test output, private farm exports, and local backups
+*.log
+coverage/
+.nyc_output/
+test-results/
+playwright-report/
+browser-profiles/
+exports/
+backups/
+farmer-daily-export*.json
+farmer-daily-data*.json
+farmer-daily-backup*.json
+farmer-daily-readings*.csv
+farmer-daily-approved-task.ics
+farmer-daily-message-draft.txt
+*.zip
+*.7z
+
+# Operating system metadata
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Private narration supplied for the local submission-video edit
+/Recording (3).m4a
+
+# Generated publication reviews/copies and private source recordings
+/output/
+*.m4a
+*.wav
+*.mp4
+*.mov
+*.webm

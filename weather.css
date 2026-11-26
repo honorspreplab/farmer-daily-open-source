@@ -1,0 +1,113 @@
+.weather-source {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-top: 13px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+}
+
+.signal-card .current-temperature-note {
+  font-size: 12px;
+  line-height: 1.55;
+  color: var(--ink);
+  overflow-wrap: anywhere;
+}
+
+.observation-source-link {
+  display: inline-block;
+  color: var(--forest);
+  font-size: 11px;
+  margin-bottom: 12px;
+}
+
+.today-weather {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 5px 12px;
+  margin: 14px 0;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+}
+
+.today-weather > span { font-size: 12px; align-self: center; }
+.today-weather > strong { font-size: 23px; }
+.today-weather > small { grid-column: 1 / -1; color: var(--muted); font-size: 11px; line-height: 1.5; }
+.signal-card .hourly-forecast-label { font-size: 9px; letter-spacing: .06em; margin-bottom: 6px; }
+
+.weather-source > div {
+  display: grid;
+  flex: 1;
+}
+
+.weather-source b {
+  color: var(--ink);
+  font-size: 9px;
+}
+
+.weather-source small {
+  color: var(--muted);
+  font-size: 8px;
+  line-height: 1.4;
+  margin-top: 2px;
+}
+
+.weather-source a {
+  color: var(--forest);
+  font-size: 9px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+#retryWeatherBtn {
+  margin-top: 8px;
+}
+
+#tomorrowSource, #tomorrowSourceLink, #tomorrowLicenseLink {
+  display: block;
+  margin-top: 8px;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+#tomorrowSourceLink, #tomorrowLicenseLink, .weather-message-source a {
+  color: inherit;
+  text-decoration: underline;
+}
+
+.weather-message-source {
+  margin-top: 8px;
+  font-size: 11px;
+}
+
+#weatherLicenseLink[hidden], #tomorrowLicenseLink[hidden], #miniWeatherLicense[hidden], #weatherSignInLink[hidden], #retryWeatherBtn[hidden], #currentObservationLink[hidden] {
+  display: none;
+}
+
+.weather-mini-credit {
+  display: flex;
+  gap: 5px;
+  font-size: 9px;
+}
+
+.weather-mini-credit a {
+  color: var(--forest);
+  text-decoration: underline;
+  white-space: nowrap;
+}
+
+@media (max-width: 600px) {
+  .weather-mini { min-width: 0; gap: 7px; }
+  .weather-mini > div { min-width: 0; }
+  .weather-mini small { max-width: 125px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .top-actions { gap: 8px; }
+}
+
+@media (max-width: 520px) {
+  .weather-source {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}

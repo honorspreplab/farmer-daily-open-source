@@ -1,0 +1,92 @@
+{
+  "platform": {
+    "apiRuntime": "node:22"
+  },
+  "routes": [
+    {
+      "route": "/api/messaging-webhook/*",
+      "methods": ["POST"],
+      "allowedRoles": ["anonymous"],
+      "headers": {"Cache-Control": "no-store"}
+    },
+    {
+      "route": "/api/messaging-dispatch",
+      "methods": ["POST"],
+      "allowedRoles": ["anonymous"],
+      "headers": {"Cache-Control": "no-store"}
+    },
+    {
+      "route": "/calendar-callback/google",
+      "rewrite": "/calendar-callback.html",
+      "allowedRoles": ["anonymous"],
+      "headers": {"Cache-Control": "no-store", "Referrer-Policy": "no-referrer", "Content-Security-Policy": "default-src 'none'; script-src 'self'; style-src 'self'; connect-src 'self'; base-uri 'none'; frame-ancestors 'none'; form-action 'none'"}
+    },
+    {
+      "route": "/calendar-callback/outlook",
+      "rewrite": "/calendar-callback.html",
+      "allowedRoles": ["anonymous"],
+      "headers": {"Cache-Control": "no-store", "Referrer-Policy": "no-referrer", "Content-Security-Policy": "default-src 'none'; script-src 'self'; style-src 'self'; connect-src 'self'; base-uri 'none'; frame-ancestors 'none'; form-action 'none'"}
+    },
+    {
+      "route": "/calendar-callback.js",
+      "allowedRoles": ["anonymous"],
+      "headers": {"Cache-Control": "no-store", "Referrer-Policy": "no-referrer"}
+    },
+    {
+      "route": "/calendar-callback.css",
+      "allowedRoles": ["anonymous"],
+      "headers": {"Cache-Control": "no-store", "Referrer-Policy": "no-referrer"}
+    },
+    {
+      "route": "/dev/status",
+      "rewrite": "/dev-status.html",
+      "allowedRoles": ["authenticated"],
+      "headers": {"Cache-Control": "no-store"}
+    },
+    {
+      "route": "/api/health",
+      "methods": ["GET"],
+      "allowedRoles": ["anonymous"],
+      "headers": {"Cache-Control": "no-store"}
+    },
+    {
+      "route": "/.auth/login/github",
+      "statusCode": 404
+    },
+    {
+      "route": "/admin.html",
+      "allowedRoles": ["authenticated"],
+      "headers": {"Cache-Control": "no-store"}
+    },
+    {
+      "route": "/api/*",
+      "allowedRoles": ["authenticated"],
+      "headers": {"Cache-Control": "no-store"}
+    },
+    {
+      "route": "/*",
+      "allowedRoles": ["authenticated"]
+    }
+  ],
+  "responseOverrides": {
+    "401": {
+      "redirect": "/.auth/login/aad?post_login_redirect_uri=.referrer",
+      "statusCode": 302
+    }
+  },
+  "navigationFallback": {
+    "rewrite": "/index.html",
+    "exclude": ["*.css", "*.js", "*.png", "*.svg", "*.webmanifest", "/service-worker.js", "/offline.html", "/api/*", "/.auth/*"]
+  },
+  "globalHeaders": {
+    "Content-Security-Policy": "default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob: https://tile.openstreetmap.org; connect-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'",
+    "Referrer-Policy": "strict-origin-when-cross-origin",
+    "Permissions-Policy": "camera=(self), microphone=(self), geolocation=()",
+    "X-Content-Type-Options": "nosniff",
+    "X-Frame-Options": "DENY"
+  },
+  "mimeTypes": {
+    ".json": "application/json",
+    ".webmanifest": "application/manifest+json"
+  }
+}

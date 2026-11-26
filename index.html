@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#173b2b" />
+  <meta name="description" content="A private, personalized daily farm assistant for Washington farmers." />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Farmer Daily" />
+  <title>Farmer Daily</title>
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="icon" href="/icons/icon-192.png" />
+  <link rel="apple-touch-icon" href="/icons/icon-192.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,500;6..72,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="onboarding.css?v=0.11.3" />
+  <link rel="stylesheet" href="pwa.css" />
+  <link rel="stylesheet" href="weather.css?v=0.10.1" />
+  <link rel="stylesheet" href="membership.css?v=0.11.0" />
+  <link rel="stylesheet" href="vendor/leaflet.css" />
+  <link rel="stylesheet" href="field-map.css?v=0.11.1" />
+  <link rel="stylesheet" href="phase-one.css?v=0.13.1" />
+  <link rel="stylesheet" href="farm-workspace.css?v=0.11.0" />
+  <link rel="stylesheet" href="field-flow.css?v=0.11.2" />
+  <link rel="stylesheet" href="farm-intelligence.css?v=0.13.0" />
+  <link rel="stylesheet" href="connected-farm.css?v=0.15.1" />
+  <link rel="stylesheet" href="calendar-connections.css?v=0.16.0" />
+  <link rel="stylesheet" href="messaging.css?v=0.17.1" />
+  <link rel="stylesheet" href="ai-brief.css?v=0.18.0" />
+  <link rel="stylesheet" href="focused-views.css?v=0.18.1" />
+  <link rel="stylesheet" href="brief-voice.css?v=0.18.1" />
+  <link rel="stylesheet" href="themes.css?v=0.11.3" />
+  <link rel="stylesheet" href="reading.css?v=0.11.4" />
+</head>
+<body data-membership="loading">
+  <section class="account-gate" id="accountGate" aria-live="polite"><div><span class="brand-mark">F</span><h1>Welcome to Farmer Daily</h1><p id="accountGateMessage">Connecting to your private account…</p><button class="primary" id="accountRetryBtn" hidden>Retry connection</button><a id="accountSignIn" href="/.auth/login/aad?post_login_redirect_uri=/" hidden>Sign in with Microsoft</a><p>Farmer Daily is free. Frontier Farm early access is available by admin approval, with no payment.</p></div></section>
+  <div class="shell" inert>
+    <aside class="sidebar">
+      <a class="brand" href="#"><span class="brand-mark">F</span><span>Farmer Daily</span></a>
+      <nav>
+        <button class="nav-item active" data-page="today"><span>⌂</span> Today</button>
+        <button class="nav-item" data-page="fields"><span>◫</span> Fields</button>
+        <button class="nav-item" data-page="tasks"><span>✓</span> Tasks <b id="taskCount">3</b></button>
+        <button class="nav-item" data-page="jobs" data-premium-page="Agent jobs"><span>⚡</span> Agent jobs <b id="jobCount">2</b></button>
+        <button class="nav-item" data-page="insights"><span>⌁</span> Insights</button>
+        <button class="nav-item" data-page="intelligence"><span>◎</span> Data &amp; Intelligence</button>
+        <button class="nav-item" data-page="connected"><span>⚙</span> Connected farm</button>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="farm-chip"><span id="farmInitials">HF</span><div><strong id="farmNameSide">Your Farm</strong><small id="farmLocationSide">Your location</small></div><i>⌄</i></div>
+        <button class="nav-item" data-page="settings"><span>⚙</span> Settings</button>
+        <button class="nav-item" data-page="security"><span>◇</span> Privacy & security</button>
+        <a class="nav-item" id="adminNavLink" href="/admin.html" hidden><span>♧</span> Admin</a>
+        <a class="nav-item" href="/.auth/logout"><span>↗</span> Sign out</a>
+      </div>
+    </aside>
+
+    <main>
+      <header class="topbar">
+        <button class="menu-btn" id="menuBtn" aria-label="Open menu">☰</button>
+        <span class="account-top-label">Farmer Daily · Daily brief</span><div class="weather-mini"><span class="sun">◌</span><div><strong>—</strong><small>Loading local weather</small><span class="weather-mini-credit"><a id="miniWeatherSource" href="https://www.weather.gov/" target="_blank" rel="noopener noreferrer">NOAA/NWS</a><a id="miniWeatherLicense" href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer" hidden>CC BY 4.0</a></span></div><div class="wind"><strong>—</strong><small id="topLocation">Your location</small></div></div>
+        <div class="top-actions"><button class="icon-btn" id="headerSettingsBtn" aria-label="Open settings" title="Settings">⚙</button><button class="icon-btn" aria-label="Notifications">♢<span class="alert-dot"></span></button><button class="avatar" id="profileAvatar" aria-label="Open profile settings">MH</button></div>
+      </header>
+
+      <section class="page active" id="todayPage">
+        <div class="welcome-row">
+          <div><p class="eyebrow" id="dateLabel">YOUR FARM TODAY · PACIFIC TIME</p><h1><span id="welcomeGreeting">Hello</span>, <span id="welcomeName">farmer</span>.</h1><p id="welcomeSubtitle">Here’s what matters on your farm today.</p></div>
+          <button class="listen-btn" id="listenBtn"><span>▶</span> Listen to brief <small>Saved brief</small></button>
+        </div>
+
+        <section class="plan-panel" id="planPanel" aria-labelledby="planTitle">
+          <div class="plan-top"><span class="plan-badge" id="accountPlanLabel">Checking your plan</span><button class="text-btn" id="refreshPlanBtn">Refresh status ↻</button></div>
+          <small id="accountEmail"></small><h2 id="planTitle">Your Farmer Daily plan</h2>
+          <p id="planDescription">Farm setup, field weather, tasks, briefs, and questions are free. Frontier Farm early access requires admin approval, with no payment.</p>
+          <p id="premiumRequestStatus" role="status"></p>
+          <form id="premiumRequestForm" hidden><label for="premiumReason">Request Frontier Farm early access <small>Optional</small></label><textarea id="premiumReason" maxlength="1000" placeholder="Tell us how you would use connected farm tools."></textarea><button class="primary" id="requestPremiumBtn">Request Frontier Farm — free</button></form>
+        </section>
+        <section class="daily-brief-panel" id="dailyBriefPanel" aria-labelledby="dailyBriefHeading">
+          <p class="eyebrow" id="dailyBriefDate">YOUR DAILY BRIEF</p><h2 id="dailyBriefHeading">3 things matter today</h2>
+          <p id="dailyBriefLimit">Your fields, weather, and tasks · Pacific time</p><p id="dailyBriefSummary">Loading your saved daily brief…</p><ul id="dailyBriefItems"></ul>
+          <div class="brief-actions"><button class="primary" id="dailyBriefBtn">Get today’s brief</button><button class="secondary" id="dailyBriefListenBtn" hidden>Listen to saved brief</button><button class="secondary" id="dailyBriefRefreshBtn" hidden>Refresh brief</button></div>
+          <p id="dailyBriefStatus" role="status"></p><div id="dailyBriefCredit"></div>
+        </section>
+        <details class="ai-brief-panel" id="aiBriefPanel"><summary>Optional AI explanation</summary><div id="aiBriefContent"></div></details>
+        <article class="hero-card premium-feature" hidden>
+          <div class="hero-top"><span class="hero-label">YOUR SAVED PRIORITY</span><span class="confidence">Chosen by you</span></div>
+          <div class="hero-body">
+            <div class="crop-icon">🍎</div>
+            <div class="hero-copy"><h2 id="priorityTitle">Your saved field priority</h2><p id="priorityCopy">Add your farm profile, then review your actual fields and the local forecast before planning work.</p>
+              <div class="reason-row"><span>BASED ON</span><span class="reason-chip">Your saved preferences</span><span class="reason-chip">Reviewable forecast</span><span class="reason-chip">Your field observations</span></div>
+            </div>
+          </div>
+          <div class="hero-actions"><button class="primary" id="startTaskBtn">Review work plan</button><button class="secondary ask-why" id="askWhyBtn">Ask why</button><span>You approve task creation</span></div>
+        </article>
+        <div class="quick-actions premium-feature" hidden aria-label="Quick actions"><button id="logObservationBtn"><span>＋</span><b>Log observation</b><small>Save notes and a photo</small></button><button id="quickAddTaskBtn"><span>✓</span><b>Add a task</b><small>Choose a date and time</small></button><button id="whatsappPreviewBtn"><span>◉</span><b>WhatsApp preview</b><small id="whatsappStatus">Unsent draft</small></button><div class="sync-state"><i></i><span><b id="syncLabel">Saved on this device</b><small>Changes sync when connected</small></span></div></div>
+
+        <div class="section-title premium-feature" hidden><div><h2>Three things to know</h2><p>Changes since your last brief</p></div><button class="text-btn" id="markRead">Mark all as read</button></div>
+        <div class="signal-grid">
+          <article class="signal-card unread" id="weatherSignal">
+            <div class="signal-head"><span class="signal-icon weather">☀</span><span>LOCAL WEATHER</span><i></i></div>
+            <p id="currentTemperatureNote" class="current-temperature-note">Checking for a recent nearby station temperature…</p><a id="currentObservationLink" class="observation-source-link" href="https://www.weather.gov/" target="_blank" rel="noopener noreferrer" hidden>View NOAA/NWS station reading ↗</a>
+            <h3 id="weatherTitle">Loading your local forecast…</h3><p id="weatherCopy">NOAA/NWS forecasts with an automatic Open-Meteo backup for your selected community.</p>
+            <div class="today-weather"><span id="todayForecastDate">Today</span><strong id="todayHigh">—</strong><small id="todayHighNote">Forecast daytime high</small></div>
+            <p class="hourly-forecast-label">HOURLY FORECAST · PACIFIC TIME</p><div class="weather-hours" id="weatherHours"><span><b>NOW</b>—</span><span><b>+1 HR</b>—</span><span><b>+2 HR</b>—</span><span><b>+3 HR</b>—</span></div>
+            <div class="weather-source"><div><b id="weatherSourceName">NOAA/NWS + Open-Meteo</b><small id="weatherSourceStatus">Connecting to your weather providers</small></div><a id="nwsSourceLink" href="https://www.weather.gov/" target="_blank" rel="noopener noreferrer">weather.gov ↗</a><a id="weatherLicenseLink" href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer" hidden>CC BY 4.0</a></div><a id="weatherSignInLink" class="card-link" href="/.auth/login/aad?post_login_redirect_uri=/" hidden>Sign in to reconnect</a><button class="card-link" id="retryWeatherBtn" hidden>Refresh weather ↻</button><button class="card-link ask-weather">View forecast reasoning →</button>
+          </article>
+          <article class="signal-card unread" id="operationSignal"><div class="signal-head"><span class="signal-icon market">≈</span><span>OPERATION</span><i></i></div><h3>Your crop signal</h3><p>Recommendations will follow the crops and operation you select.</p><div class="market-price"><strong id="operationMetric">—</strong><span><b>Today</b> personalized signal</span></div><button class="card-link ask-market">Review recommendation →</button></article>
+          <article class="signal-card unread" id="safetySignal"><div class="signal-head"><span class="signal-icon alert">!</span><span>WORKER SAFETY</span><i></i></div><h3>Your safety threshold</h3><p>Role- and location-relevant safety guidance will appear here.</p><div class="machine"><span>💧</span><div><b>Water · shade · rest</b><small>Confirm conditions before the shift</small></div></div><button class="card-link ask-tractor">Review safety steps →</button></article>
+        </div>
+
+        <div class="lower-grid">
+          <section class="tasks-panel"><div class="panel-head"><div><h2>Your work plan</h2><p>Saved tasks · dates and times shown below</p></div><button class="add-btn" id="addTaskBtn">＋ Add task</button></div><div id="taskList"></div></section>
+          <aside class="tomorrow-card"><span class="tomorrow-icon" id="tomorrowIcon">◌</span><p class="eyebrow" id="tomorrowDate">TOMORROW</p><h2 id="tomorrowTitle">Loading tomorrow…</h2><p id="tomorrowCopy">Fetching your local forecast, with a backup provider if needed.</p><div class="tomorrow-stat"><span><b id="tomorrowHigh">—</b>Tomorrow’s forecast high</span><span><b id="tomorrowRain">—</b>Precipitation chance</span></div><small id="tomorrowSource">NOAA/NWS with Open-Meteo backup</small><a id="tomorrowSourceLink" href="https://www.weather.gov/" target="_blank" rel="noopener noreferrer">View on weather.gov ↗</a><a id="tomorrowLicenseLink" href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer" hidden>CC BY 4.0 · Units and layout adapted</a><button class="secondary full ask-tomorrow">Plan around tomorrow →</button></aside>
+        </div>
+      </section>
+
+      <section class="page placeholder" id="fieldsPage">
+        <div class="placeholder-head"><p class="eyebrow" id="fieldsFarmLabel">YOUR FARM</p><h1>Your field notebook</h1><p>Real fields, dated observations, and follow-up work. Only you can see these records.</p></div>
+        <div class="workspace-toolbar"><button class="primary" id="addFieldBtn">＋ Add field</button><button class="secondary" id="addObservationBtn">Log observation</button><span id="fieldCount"></span></div>
+        <p class="workspace-sync" data-sync-status role="status">Checking account sync…</p><p class="workspace-note" id="workspaceMessage" role="status"></p><div class="field-grid" id="fieldGrid"></div>
+        <section class="notebook-section" aria-labelledby="observationsHeading"><div class="panel-head"><h2 id="observationsHeading">Field observations</h2><label>Search your notes<input type="search" id="observationSearch" placeholder="Field, crop, or note"></label></div><p class="workspace-note">Photos are resized to small JPEGs and re-encoded to remove original metadata. Device copies are not separately encrypted; avoid shared browser profiles. Maximum 200 notes and 512 KB of total farm records.</p><div id="observationList"></div></section>
+        <div class="source-strip"><span class="source-dot"></span><div><b>Community forecast, not a field sensor</b><small id="sourceSummary">NOAA/NWS with Open-Meteo backup</small></div><button class="text-btn ask-weather">Why this source?</button></div>
+      </section>
+      <section class="page placeholder" id="tasksPage"><div class="placeholder-head"><p class="eyebrow">WORK PLAN</p><h1>Farm tasks</h1><p>Keep today moving without the paperwork.</p></div><section class="tasks-panel standalone"><div class="panel-head"><h2>All tasks</h2><button class="add-btn add-task-copy">＋ Add task</button></div><div id="allTaskList"></div></section></section>
+      <section class="page placeholder" id="connectedPage"><div class="placeholder-head"><p class="eyebrow">FRONTIER FARM EARLY ACCESS</p><h1>Connected farm</h1><p>Private farm records and reviewed actions. Connect a calendar when provider setup is ready; add each event only after approval. Live devices and email sending remain unconnected.</p></div></section>
+      <section class="page placeholder premium-feature" id="jobsPage"><div class="placeholder-head"><p class="eyebrow">REVIEW BEFORE APPLYING</p><h1>Work planner</h1><p>Turn your actual fields and forecast into inspection tasks. You choose what becomes work.</p></div><div class="agent-summary"><div><span>☑</span><div><b id="jobSummary">No plans waiting</b><small>No equipment control, automatic messages, or treatment prescriptions</small></div></div><button class="primary" id="createJobBtn">＋ Prepare work</button></div><p class="workspace-sync" data-sync-status role="status">Checking account sync…</p><p id="plannerMessage" class="workspace-note" role="status"></p><div class="job-list" id="jobList"></div><section class="activity-panel"><div class="panel-head"><div><h2>Planning history</h2><p>Your saved preparation, approval, and undo records; not an independent security audit.</p></div></div><div id="jobActivity"></div></section></section>
+      <section class="page placeholder" id="insightsPage"><div class="placeholder-head"><p class="eyebrow">FROM YOUR RECORDS</p><h1>Farm insights</h1><p>A summary of the fields, observations, and work you have actually saved.</p></div><div class="insight-list" id="recordInsights"></div><p class="workspace-note">Open Data &amp; Intelligence for permitted soil, regional context and dated satellite history. Soil sensors, yield, fuel-inventory and financial feeds are not connected. No savings or crop diagnosis are inferred.</p></section>
+      <section class="page placeholder" id="settingsPage"><div class="placeholder-head"><p class="eyebrow">PERSONALIZATION</p><h1>Your Farmer Daily</h1><p>You stay in control of what the assistant knows, prioritizes, and looks like.</p></div><section class="reading-helper-panel" id="readingHelperPanel" aria-labelledby="readingHelperHeading"><h2 id="readingHelperHeading">Dyslexia helper</h2><p id="readingHelperDescription">Try a plain font, larger text, and more space between words and lines. Reading needs vary—choose what feels comfortable for you.</p><label class="reading-helper-toggle"><input type="checkbox" id="readingHelperEnabled" aria-describedby="readingHelperDescription"><span>Turn on dyslexia helper</span></label><label class="reading-helper-size" for="readingTextSize">Text size<select id="readingTextSize" disabled><option value="comfortable">Comfortable</option><option value="large">Extra large</option></select></label><div class="reading-helper-preview" aria-label="Reading preview"><h3>Reading preview</h3><p>Take one task at a time. Open a field to review its weather, then choose your next step.</p></div><p class="reading-helper-status" id="readingHelperStatus" role="status">Helper off. Your usual text formatting is restored.</p><p class="reading-helper-note">Your theme stays the same. Only a reading preference is saved with your private settings—not a diagnosis.</p><div class="workspace-actions"><button type="button" class="secondary" id="readingListenBrief">Listen to my brief</button></div><p class="reading-helper-note">Prepare a brief on Today first. Read-aloud uses your browser’s available voices and never starts automatically.</p></section><div class="settings-layout"><div><h2 class="settings-heading">Farm profile</h2><div class="profile-summary" id="profileSummary"></div><button class="primary edit-profile" id="editProfileBtn">Edit farm profile</button></div><div><div class="theme-title"><div><h2 class="settings-heading">Appearance</h2><p>Choose your colors. For the strongest text contrast, try High Contrast. Changes are saved automatically.</p></div><span id="themeTypeBadge">SOLID</span></div><div class="theme-grid" id="themeGrid" role="group" aria-label="Appearance theme"><button class="theme-option" data-theme="field"><i><b></b><b></b></i><span>Field</span><small>Solid · Light</small></button><button class="theme-option" data-theme="harvest"><i><b></b><b></b></i><span>Harvest</span><small>Solid · Light</small></button><button class="theme-option" data-theme="slate"><i><b></b><b></b></i><span>Slate</span><small>Solid · Dark</small></button><button class="theme-option" data-theme="sunrise"><i><b></b><b></b></i><span>Sunrise</span><small>Gradient · Light</small></button><button class="theme-option" data-theme="prairie"><i><b></b><b></b></i><span>Prairie</span><small>Gradient · Light</small></button><button class="theme-option" data-theme="midnight"><i><b></b><b></b></i><span>Midnight</span><small>Gradient · Dark</small></button><button class="theme-option" data-theme="orchard"><i aria-hidden="true"><b></b><b></b></i><span>Orchard</span><small>Solid · Light</small></button><button class="theme-option" data-theme="coastal"><i aria-hidden="true"><b></b><b></b></i><span>Coastal</span><small>Solid · Light</small></button><button class="theme-option" data-theme="lavender"><i aria-hidden="true"><b></b><b></b></i><span>Lavender</span><small>Solid · Light</small></button><button class="theme-option" data-theme="highcontrast"><i aria-hidden="true"><b></b><b></b></i><span>High Contrast</span><small>Solid · Dark</small></button></div></div></div></section>
+      <section class="page placeholder" id="securityPage"><div class="placeholder-head"><p class="eyebrow">YOUR DATA, YOUR CONTROL</p><h1>Privacy & security</h1><p>See what is stored, where it goes, and remove it whenever you choose.</p></div><div class="privacy-hero"><span>◇</span><div><b>Private local prototype</b><p>Your farm profile, phone, address, tasks, observations, and job history stay in this browser. Only the coordinates of the community you selected are sent through our server to NOAA/NWS or Open-Meteo for a forecast—never your name, address, phone, field names, crops, or notes.</p></div></div><div class="privacy-grid"><article><b>Data minimization</b><p>Address and phone are optional. Messaging channels remain off until separately enabled.</p></article><article><b>No model training</b><p>Farmer Daily must never use private farm data to train shared models without separate, informed permission.</p></article><article><b>Approval boundaries</b><p>External messages, purchases, submissions, and irreversible changes always require explicit approval.</p></article><article><b>Production security</b><p>Encryption in transit and at rest, tenant isolation, least-privilege access, audit logs, backups, and incident response are launch requirements.</p></article></div><div class="data-controls"><div><h2>Your local data</h2><p id="dataInventory">Profile, tasks, observations, and agent history. Account access and request history are retained.</p></div><button class="secondary" id="exportDataBtn">Download my data</button><button class="danger-btn" id="deleteDataBtn">Delete farm data</button></div></section>
+      <aside class="install-banner" id="installBanner" hidden aria-live="polite">
+        <img src="/icons/icon-192.png" alt="" width="48" height="48">
+        <div><b>Put Farmer Daily on your phone</b><small id="installHelp">Open it full-screen from your home screen.</small></div>
+        <button class="primary" id="installAppBtn">Install app</button>
+        <button class="install-dismiss" id="dismissInstallBtn" aria-label="Dismiss install suggestion">×</button>
+      </aside>
+    </main>
+  </div>
+
+  <button class="ask-fab" id="askFab"><span>✦</span><div><b>Ask Farmer Daily</b><small>Tap to talk or type</small></div><i>⌃</i></button>
+  <section class="chat-drawer" id="chatDrawer" aria-hidden="true"><div class="chat-head"><div><span>✦</span><div><b>Farmer Daily</b><small><i></i> Ready to help</small></div></div><button id="closeChat" aria-label="Close assistant">×</button></div><div class="messages" id="messages"><div class="bot-msg">Ask about your saved brief, a field’s weather, what changed, or today’s tasks. Answers here use recorded data and explainable rules. For an optional AI daily-message draft or read-only tool analysis, open Optional AI explanation on Today and approve a request.</div><div class="quick-prompts"><button>Why these priorities?</button><button>What changed?</button><button>What tasks are due?</button></div></div><form id="chatForm"><button type="button" id="photoBtn" title="Upload photo">⌕</button><input id="chatInput" placeholder="Ask about your farm…" autocomplete="off"><button type="button" id="micBtn" aria-label="Speak a question">🎙</button><button class="send" type="submit" aria-label="Send">↑</button><input type="file" accept="image/*" id="photoInput" hidden></form></section>
+  <div class="modal-backdrop" id="modalBackdrop"><form class="task-modal" id="taskForm"><button type="button" class="modal-close" id="closeModal" aria-label="Close task">×</button><p class="eyebrow">YOUR WORK PLAN</p><h2 id="taskModalTitle">Add farm task</h2><label>Task name<input id="newTaskName" required maxlength="200" placeholder="e.g. Inspect South orchard"></label><label>Date <small>Pacific time</small><input id="newTaskDate" type="date" required></label><label>Time <small>Optional · Pacific time</small><input id="newTaskTime" type="time"></label><label>Field<select id="newTaskField"><option value="">Whole farm / no field</option></select></label><label>Place or equipment <small>Optional</small><input id="newTaskPlace" maxlength="200" placeholder="e.g. South orchard"></label><div class="modal-actions"><button type="button" class="secondary" id="cancelModal">Cancel</button><button class="primary">Save task</button></div></form></div>
+  <div class="modal-backdrop premium-feature" id="observationBackdrop"><form class="task-modal" id="observationForm" role="dialog" aria-modal="true" aria-labelledby="observationTitle"><button type="button" class="modal-close" id="closeObservation" aria-label="Close observation">×</button><p class="eyebrow">PRIVATE FIELD RECORD</p><h2 id="observationTitle">Log an observation</h2><label>Saved field<select id="observationField" required></select></label><label>What did you notice?<textarea id="observationText" required maxlength="2000" rows="4" placeholder="Describe what you saw; this is not an automatic diagnosis."></textarea></label><label>Photo <small>Optional · JPEG, PNG or WebP up to 10 MB; saved as a small JPEG</small><input id="observationPhoto" type="file" accept="image/jpeg,image/png,image/webp" capture="environment"></label><p id="observationError" role="alert"></p><div class="modal-actions"><button type="button" class="secondary" id="cancelObservation">Cancel</button><button class="primary" id="saveObservationBtn">Save observation</button></div></form></div>
+  <dialog id="fieldDialog" class="workspace-dialog"><form id="fieldForm"><p class="eyebrow">YOUR ACTUAL FIELD</p><h2 id="fieldDialogTitle">Add field</h2><input id="fieldId" type="hidden"><label>Field name<input id="fieldName" required maxlength="100" placeholder="e.g. South orchard"></label><label>Crop or use<input id="fieldCrop" required maxlength="80" placeholder="e.g. Apples"></label><label>Growth stage <small>Optional · your observation</small><input id="fieldStage" maxlength="80" placeholder="e.g. After harvest"></label><label>Acres <small>Optional · not estimated</small><input id="fieldAcres" type="number" min="0.01" max="1000000" step="any"></label><p id="fieldError" role="alert"></p><div class="modal-actions"><button type="button" class="secondary" id="cancelFieldBtn">Cancel</button><button class="primary">Save field</button></div></form></dialog>
+  <div class="modal-backdrop premium-feature" id="jobBackdrop"><form class="task-modal" id="jobForm" role="dialog" aria-modal="true" aria-labelledby="jobFormTitle"><button type="button" class="modal-close" id="closeJobModal" aria-label="Close planner">×</button><p class="eyebrow">PREPARE, REVIEW, THEN APPROVE</p><h2 id="jobFormTitle">Prepare useful work</h2><label>Job type<select id="jobType"><option value="plan">Weather-aware field inspection plan</option><option value="tasks">Create one task I describe</option><option value="message">Prepare a crew-message draft</option></select></label><label>Field<select id="jobField"></select></label><label>Plan date <small>Pacific time · weather planning supports today or tomorrow</small><input id="jobDate" type="date" required></label><label>Task title or context<textarea id="jobInstructions" maxlength="1000" rows="3" placeholder="For a manual task, enter its exact title. For a weather plan, these notes are saved as context, not interpreted as commands."></textarea></label><p class="workspace-note">Inspection times use known rain chances below 50% and your wind threshold during 8 am–5 pm Pacific. Unknown or unsuitable hours stay unscheduled. Always check actual field conditions.</p><p id="jobError" role="alert"></p><div class="modal-actions"><button type="button" class="secondary" id="cancelJobModal">Cancel</button><button class="primary" id="prepareJobBtn">Prepare for review</button></div></form></div>
+  <div class="channel-preview premium-feature" id="channelPreview" aria-hidden="true"><div class="channel-preview-head"><div><span>◉</span><b>WhatsApp preview</b></div><button id="closeChannelPreview" aria-label="Close preview">×</button></div><div class="channel-message"><small>FARMER DAILY · <span id="previewLocation">YOUR FARM</span></small><p id="whatsappPreviewCopy">Your personalized brief will appear here.</p><em>Preview only · not sent</em></div><button class="primary" id="editDeliveryBtn">Edit delivery settings</button></div>
+  <div class="toast" id="toast"></div>
+  <div class="onboarding" id="onboarding">
+    <form class="onboarding-card" id="profileForm">
+      <div class="onboarding-brand"><span class="brand-mark">F</span><span>Farmer Daily</span></div>
+      <div class="step active" data-step="1">
+        <p class="eyebrow">LET’S MAKE THIS YOURS · 1 OF 4</p><h1>Who are we briefing?</h1><p class="step-intro">Farmer Daily changes what it shows based on who you are and what you’re responsible for.</p>
+        <div class="form-grid"><label>Your first name<input name="firstName" required placeholder="e.g. Maria"></label><label>Farm name<input name="farmName" required placeholder="e.g. Cedar Ridge Farm"></label><label class="wide">Nearest Washington community<select name="locationId" id="locationSelect" required><option value="">Choose the nearest place</option><optgroup label="Puget Sound"><option value="kirkland">Kirkland</option><option value="seattle">Seattle</option><option value="bellevue">Bellevue</option><option value="snohomish">Snohomish</option><option value="tacoma">Tacoma</option><option value="olympia">Olympia</option></optgroup><optgroup label="Northwest Washington"><option value="mount_vernon">Mount Vernon</option><option value="bellingham">Bellingham</option><option value="sequim">Sequim</option></optgroup><optgroup label="Central Washington"><option value="yakima">Yakima</option><option value="wenatchee">Wenatchee</option><option value="chelan">Chelan</option><option value="ellensburg">Ellensburg</option><option value="moses_lake">Moses Lake</option></optgroup><optgroup label="Eastern Washington"><option value="spokane">Spokane</option><option value="pullman">Pullman</option><option value="walla_walla">Walla Walla</option><option value="okanogan">Okanogan</option></optgroup><optgroup label="Southwest / Gorge"><option value="vancouver">Vancouver</option><option value="chehalis">Chehalis</option><option value="goldendale">Goldendale</option></optgroup></select></label><label class="wide">Farm or home address <small>Optional · stored privately, not sent to weather services</small><input name="address" autocomplete="street-address" placeholder="e.g. 123 Farm Road, Kirkland, WA"></label></div>
+        <p class="field-label">Your primary role</p><div class="choice-grid role-grid"><label><input type="radio" name="role" value="owner" checked><span>🧢<b>Owner</b><small>Whole-farm priorities and decisions</small></span></label><label><input type="radio" name="role" value="manager"><span>📋<b>Farm manager</b><small>Operations, schedules, and people</small></span></label><label><input type="radio" name="role" value="supervisor"><span>👥<b>Crew supervisor</b><small>Assignments, progress, and safety</small></span></label><label><input type="radio" name="role" value="worker"><span>🧤<b>Field worker</b><small>My tasks, conditions, and safety</small></span></label><label><input type="radio" name="role" value="operator"><span>🚜<b>Equipment operator</b><small>Work windows and machine readiness</small></span></label><label><input type="radio" name="role" value="irrigation"><span>💧<b>Irrigation operator</b><small>Moisture, pumps, and water timing</small></span></label><label><input type="radio" name="role" value="agronomist"><span>🌱<b>Agronomist / scout</b><small>Crop changes, pests, and scouting</small></span></label><label><input type="radio" name="role" value="office"><span>🗂️<b>Office / compliance</b><small>Records, deadlines, and coordination</small></span></label></div>
+      </div>
+      <div class="step" data-step="2">
+        <p class="eyebrow">CONTACT & DELIVERY · 2 OF 4</p><h1>How can we reach you?</h1><p class="step-intro">A profile phone number is optional. To receive real SMS or WhatsApp briefs, finish setup, then open Settings → Messages & WhatsApp and verify your own number.</p>
+        <div class="form-grid"><label class="wide">Mobile phone <small>Optional</small><input name="phone" id="phoneInput" type="tel" autocomplete="tel" placeholder="(425) 555-0123"></label></div>
+        <div class="preference-list contact-preferences" hidden><label><span><b>Legacy daily SMS preference</b></span><input type="checkbox" name="smsOptIn" id="smsOptIn"></label><label><span><b>Legacy safety SMS preference</b></span><input type="checkbox" name="safetySmsOptIn" id="safetySmsOptIn"></label><label><span><b>Legacy daily WhatsApp preference</b></span><input type="checkbox" name="whatsappOptIn" id="whatsappOptIn"></label><label><span><b>Legacy safety WhatsApp preference</b></span><input type="checkbox" name="safetyWhatsappOptIn" id="safetyWhatsappOptIn"></label></div>
+        <p class="consent-note">Saving this profile does not authorize or start delivery. Messages & WhatsApp has separate consent, number verification, scheduling and stop controls. Urgent safety-alert delivery is not supported.</p>
+      </div>
+      <div class="step" data-step="3">
+        <p class="eyebrow">YOUR OPERATION · 3 OF 4</p><h1>What do you grow?</h1><p class="step-intro">Optional farm defaults. Add each field’s location, crop, and dates after setup. Connect additional sources and choose a market report in Data &amp; Intelligence; some sources need administrator setup.</p>
+        <div class="crop-choices"><label><input type="checkbox" name="crops" value="Apples"><span>🍎 Apples</span></label><label><input type="checkbox" name="crops" value="Cherries"><span>🍒 Cherries</span></label><label><input type="checkbox" name="crops" value="Grapes"><span>🍇 Grapes</span></label><label><input type="checkbox" name="crops" value="Wheat"><span>🌾 Wheat</span></label><label><input type="checkbox" name="crops" value="Vegetables"><span>🥬 Vegetables</span></label><label><input type="checkbox" name="crops" value="Livestock"><span>🐄 Livestock</span></label></div>
+        <div class="form-grid"><label>Priority field or area<input name="priorityField" placeholder="e.g. South 40"></label><label>Acres you manage<input name="acres" type="number" min="1" placeholder="e.g. 850"></label></div>
+      </div>
+      <div class="step" data-step="4">
+        <p class="eyebrow">YOUR SIGNALS · 4 OF 4</p><h1>What should break through?</h1><p class="step-intro">Choose your brief language and timing. You can edit these preferences anytime.</p>
+        <div class="preference-list"><label><span><b>Preferred language</b><small>Brief, questions, and voice · setup interface currently English</small></span><select name="language"><option>English</option><option>Español</option></select></label><label><span><b>Wind threshold</b><small>Alert me when wind exceeds</small></span><select name="wind"><option value="10">10 mph</option><option value="15" selected>15 mph</option><option value="20">20 mph</option></select></label><label hidden><span><b>Market movement</b><small>Only surface price changes above</small></span><select name="market"><option value="3">3¢</option><option value="5" selected>5¢</option><option value="10">10¢</option></select></label><label hidden><span><b>Always show tomorrow’s rain</b><small>Include it even when it is not urgent</small></span><input type="checkbox" name="tomorrowRain" checked></label><label><span><b>Daily brief time</b><small>Pacific time · app must be open</small></span><input type="time" name="briefTime" value="06:30"></label><label><span><b>Prepare my daily brief</b><small>Automatically while the app is open, or on return after this time</small></span><input type="checkbox" name="scheduleEnabled"></label><label><span><b>Notification preference</b><small>Browser notifications require separate permission; no closed-app delivery</small></span><select name="notificationPreference"><option value="in-app">In app</option><option value="browser">Browser while open</option><option value="off">No notification</option></select></label></div>
+      </div>
+      <div class="onboarding-actions"><button type="button" class="secondary" id="profileBack">Back</button><span id="stepDots">● ○ ○ ○</span><button type="button" class="primary" id="profileNext">Continue</button><button type="submit" class="primary" id="profileFinish">Build my brief</button></div>
+    </form>
+  </div>
+  <script src="membership.js?v=0.18.2"></script>
+  <script src="weather-ui.js?v=0.11.0"></script>
+  <script src="work-plan.js?v=0.10.0"></script>
+  <script src="app.js?v=0.18.2"></script>
+  <script src="vendor/leaflet.js"></script>
+  <script src="field-geometry.js?v=0.11.0"></script>
+  <script src="field-map.js?v=0.11.2"></script>
+  <script src="farm-workspace.js?v=0.18.1"></script>
+  <script src="field-flow.js?v=0.18.1"></script>
+  <script src="build-progress.js?v=0.18.2"></script>
+  <script src="phase-schedule.js?v=0.11.0"></script>
+  <script src="brief-voice.js?v=0.18.1"></script>
+  <script src="phase-one.js?v=0.18.1"></script>
+  <script src="farm-intelligence.js?v=0.14.0"></script>
+  <script src="calendar-connections.js?v=0.16.0"></script>
+  <script src="messaging.js?v=0.17.1"></script>
+  <script src="ai-brief.js?v=0.18.0"></script>
+  <script src="connected-farm.js?v=0.16.0"></script>
+  <script src="focused-views.js?v=0.18.1"></script>
+</body>
+</html>

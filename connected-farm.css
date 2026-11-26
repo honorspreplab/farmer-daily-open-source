@@ -1,0 +1,32 @@
+.connected-farm{color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:24px;margin:22px 0;min-width:0;scroll-margin-top:100px}
+.connected-farm *{box-sizing:border-box;min-width:0}
+.connected-farm h2,.connected-farm h3,.connected-farm h4{color:var(--ink);line-height:1.4;margin:0 0 12px}
+.connected-farm h2{font-size:25px}.connected-farm h3{font-size:20px}.connected-farm h4{font-size:17px}
+.connected-farm p{line-height:1.6;overflow-wrap:anywhere}.cf-note,.cf-meta{color:var(--muted);font-size:14px;line-height:1.6}
+.cf-status{line-height:1.6;color:var(--ink);padding:12px 0;overflow-wrap:anywhere}
+.cf-form-status{line-height:1.6;color:var(--ink);margin:0;padding:12px;border:1px solid var(--line);border-radius:8px;background:var(--paper);overflow-wrap:anywhere;scroll-margin-top:100px}
+.cf-form-status.cf-warning{color:var(--warning);background:var(--warning-bg)}
+.cf-csv-steps{padding-left:24px;margin:0;line-height:1.7;color:var(--ink)}.cf-csv-steps li{padding:5px 0;overflow-wrap:anywhere}
+.cf-section{padding-top:24px;margin-top:24px;border-top:1px solid var(--line)}
+.cf-section>details,.cf-card{border:1px solid var(--line);border-radius:12px;padding:18px;background:var(--paper);margin:14px 0}
+.cf-section>details{background:var(--soft)}.connected-farm summary{font-weight:700;line-height:1.6;cursor:pointer;color:var(--ink)}
+.cf-form{display:grid;gap:15px;margin-top:16px}.cf-form label,.cf-search{display:grid;gap:7px;font-weight:600;line-height:1.6}
+.cf-form label small{font-weight:400;color:var(--muted)}
+.connected-farm input,.connected-farm select,.connected-farm textarea{width:100%;max-width:100%;min-height:44px;font:inherit;color:var(--ink);background:var(--paper);border:1px solid var(--control-border);border-radius:8px;padding:10px 12px}
+.connected-farm textarea{min-height:110px;resize:vertical}.connected-farm input[type=checkbox]{width:22px;min-height:22px;accent-color:var(--accent)}
+.cf-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.cf-grid>*{align-self:start}
+.cf-actions{display:flex;flex-wrap:wrap;gap:10px;align-items:start;margin-top:14px}
+.connected-farm button{white-space:normal;height:auto;min-height:44px;max-width:100%;overflow-wrap:anywhere;font-size:14px}
+.connected-farm button.secondary{color:var(--ink);background:var(--paper);border:1px solid var(--control-border)}
+.connected-farm button:disabled{opacity:.7;cursor:not-allowed}.connected-farm :is(button,input,select,textarea,summary):focus-visible{outline:3px solid var(--focus);outline-offset:3px}
+.cf-warning{background:var(--warning-bg);color:var(--warning);border-radius:8px;padding:12px;line-height:1.6}
+.cf-badge{display:inline-block;color:var(--muted);background:var(--soft);border:1px solid var(--line);padding:5px 9px;border-radius:8px;font-size:13px;font-weight:700;line-height:1.5}
+.cf-pre{white-space:pre-wrap;overflow-wrap:anywhere;color:var(--ink);font:inherit;line-height:1.6;background:var(--soft);border-radius:8px;padding:12px}
+.cf-facts{margin:8px 0}.cf-facts>div{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px;padding:8px 0;border-bottom:1px solid var(--line);line-height:1.6;overflow-wrap:anywhere}.cf-facts dt{color:var(--muted)}.cf-facts dd{color:var(--ink);margin:0}
+.cf-empty{color:var(--muted);background:var(--soft);border-radius:8px;padding:14px}.cf-review{border:2px solid var(--control-border);padding:16px;border-radius:12px;margin-top:15px}
+.cf-approve-label{display:flex;align-items:start;gap:10px;margin-top:14px;line-height:1.6}.cf-approve-label input{flex:0 0 22px;margin-top:4px}
+.cf-events{padding-left:22px;line-height:1.7;color:var(--muted)}.cf-events li{padding:5px 0;overflow-wrap:anywhere}
+@media(max-width:1100px){.cf-grid{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:600px){.connected-farm{padding:16px}.cf-section>details,.cf-card,.cf-review{padding:13px}.cf-facts>div{grid-template-columns:minmax(0,1fr);gap:3px}.cf-actions>button{flex:1 1 150px}}
+body[data-reading-helper=true] .cf-grid,body[data-reading-helper=true] .cf-facts>div{grid-template-columns:minmax(0,1fr)}
+body[data-reading-helper=true] .connected-farm :is(button,.cf-note,.cf-meta,.cf-badge){font-size:var(--reading-control,16px)}
